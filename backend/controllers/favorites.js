@@ -1,7 +1,6 @@
-const { db } = require("../config/db.js")
-const { favoritesTable } =  require ("../models/schema")
-
-
+const { db } = require("../config/db.js");
+const { favoritesTable } = require("../models/schema");
+const { eq, and } = require("drizzle-orm"); 
 
 const toAdd = async (req, res) => {
 	try {
@@ -28,12 +27,16 @@ const toAdd = async (req, res) => {
 		console.log("Error adding favorite", error);
 		res.status(500).json({ error: "Something went wrong" });
 	}
-}
+};
 
 const getByUser = async (req, res) => {
 	try {
 		const { userId } = req.params;
 
+		console.log('=============userId=======================');
+		console.log(userId);
+		console.log('====================================');
+		
 		const userFavorites = await db
 			.select()
 			.from(favoritesTable)
@@ -44,7 +47,7 @@ const getByUser = async (req, res) => {
 		console.log("Error fetching the favorites", error);
 		res.status(500).json({ error: "Something went wrong" });
 	}
-}
+};
 
 const getOneByuser = async (req, res) => {
 	try {
@@ -64,10 +67,10 @@ const getOneByuser = async (req, res) => {
 		console.log("Error removing a favorite", error);
 		res.status(500).json({ error: "Something went wrong" });
 	}
-}
+};
 
 module.exports = {
-   toAdd,
-   getByUser,
-   getOneByuser
-}
+	toAdd,
+	getByUser,
+	getOneByuser
+};
